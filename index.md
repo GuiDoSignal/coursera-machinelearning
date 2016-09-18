@@ -19,7 +19,7 @@ a 5-fold repeated cross validation with 3 runs.
 
 Finally, we showed how these different values influence the accuracy and the 
 confusion matrix obtained in the final model, whose accuracy was higher than 
-99.41% with in the training data.
+99.5% with in the training data.
 
 ## Pre processing
 
@@ -152,7 +152,8 @@ As you can see on the code above, we tried 10 different values for the mtry
 parameter (number of random selected predictors at each split) and evaluated 
 each of them with a 5-fold repeated cross validation with 3 runs. 
 
-The chart below shows that the accuracy of 99.4% was achieved when mtry = 27.
+The code and the chart below show that the accuracy of over 99.5% was 
+achieved when mtry = 7.
 
 
 ```
@@ -188,8 +189,8 @@ The chart below shows that the accuracy of 99.4% was achieved when mtry = 27.
 It is important to note that this accuracy is optmistic, so we expected to 
 achieve lower values when applying this model to the test data.  
 
-The chart below shows the confusion matrix obtained from the training data as a 
-heat map.
+The chart below shows the confusion matrix obtained from the training 
+data as a heat map.
 
 ![plot of chunk conf-mat1](figure/conf-mat1-1.png)
 
