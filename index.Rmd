@@ -13,11 +13,13 @@ specification (Class A), throwing the elbows to the front (Class B),
 lifting the dumbbell only halfway (Class C), lowering the dumbbell only halfway 
 (Class D) and throwing the hips to the front (Class E).
 
-To achieve this goal, we trained a random forest model and evaluated it through 
+To achieve this goal, we trained a random forest model with 10 different values 
+for the number of randomly selected predictors (mtry) and evaluated them through 
 a 5-fold repeated cross validation with 3 runs.
 
-We show how different values of randow predictors influence the and achieved 
-the accuracy of 99.41% with in the training data.
+Finally, we showed how these different values influence the accuracy and the 
+confusion matrix obtained in the final model, whose accuracy was higher than 
+99.41% with in the training data.
 
 ## Pre processing
 
@@ -154,6 +156,8 @@ each of them with a 5-fold repeated cross validation with 3 runs.
 The chart below shows that the accuracy of 99.4% was achieved when mtry = 27.
 
 ```{r acc1,echo=FALSE,cache=TRUE}
+
+print(model_rf)
 
 plot(model_rf) 
  

@@ -13,11 +13,13 @@ specification (Class A), throwing the elbows to the front (Class B),
 lifting the dumbbell only halfway (Class C), lowering the dumbbell only halfway 
 (Class D) and throwing the hips to the front (Class E).
 
-To achieve this goal, we trained a random forest model and evaluated it through 
+To achieve this goal, we trained a random forest model with 10 different values 
+for the number of randomly selected predictors (mtry) and evaluated them through 
 a 5-fold repeated cross validation with 3 runs.
 
-We show how different values of randow predictors influence the and achieved 
-the accuracy of 99.41% with in the training data.
+Finally, we showed how these different values influence the accuracy and the 
+confusion matrix obtained in the final model, whose accuracy was higher than 
+99.41% with in the training data.
 
 ## Pre processing
 
@@ -151,6 +153,35 @@ parameter (number of random selected predictors at each split) and evaluated
 each of them with a 5-fold repeated cross validation with 3 runs. 
 
 The chart below shows that the accuracy of 99.4% was achieved when mtry = 27.
+
+
+```
+## Parallel Random Forest 
+## 
+## 19622 samples
+##    52 predictors
+##     5 classes: 'A', 'B', 'C', 'D', 'E' 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (5 fold, repeated 3 times) 
+## Summary of sample sizes: 15697, 15699, 15696, 15697, 15699, 15698, ... 
+## Resampling results across tuning parameters:
+## 
+##   mtry  Accuracy   Kappa    
+##    2    0.9935344  0.9918211
+##    7    0.9956863  0.9945435
+##   13    0.9956399  0.9944848
+##   18    0.9951160  0.9938221
+##   24    0.9946488  0.9932309
+##   29    0.9935616  0.9918555
+##   35    0.9931567  0.9913432
+##   40    0.9921008  0.9900076
+##   46    0.9913646  0.9890761
+##   52    0.9891705  0.9863003
+## 
+## Accuracy was used to select the optimal model using  the largest value.
+## The final value used for the model was mtry = 7.
+```
 
 ![plot of chunk acc1](figure/acc1-1.png)
 
