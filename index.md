@@ -1,7 +1,7 @@
 # Human Activity Recognition Predictor
 
-Guilherme Junqueira
-September 18, 2016
+Guilherme Junqueira  
+September 18, 2016  
 
 ---
 
@@ -120,11 +120,12 @@ selection provided by the algorithm.
 set.seed(2016)
 k_fold       <- 5
 num_repeats  <- 3
+tune_length  <- 10
 seeds_length <- k_fold * num_repeats
 
 seeds_list   <- vector(mode = "list", length = seeds_length + 1)
 for(i in 1:seeds_length){
-    seeds_list[[i]] <- sample.int(1000, num_repeats)
+    seeds_list[[i]] <- sample.int(1000, tune_length)
 }
 seeds_list[[seeds_length + 1]] <- sample.int(1000, 1)
 
@@ -142,13 +143,14 @@ model_rf <- train(
     classe ~ .,
     data_train,
     method = "parRF",
-    tuneLength = 10,
+    tuneLength = tune_length,
     trControl = train_ctrl
 )
 ```
 
 ```
-## Error in train.default(x, y, weights = w, ...): Bad seeds: the seed object should be a list of length 16 with 15 integer vectors of size 10 and the last list element having at least a single integer
+## Warning in nominalTrainWorkflow(x = x, y = y, wts = weights, info =
+## trainInfo, : There were missing values in resampled performance measures.
 ```
 
 As you can see on the code above, we did a 5-fold repeated cross validation 
