@@ -57,9 +57,6 @@ if( !file.exists(file_train) ){
 data_train <- read.csv(file_train, na.strings = c("NA") )
 data_test  <- read.csv(file_test, na.strings = c("NA") )
 
-# Remove files' names
-rm(file_test, file_train)
-
 dim(data_train)
 ```
 
@@ -93,12 +90,8 @@ data_test <- subset(
 
 # Removing columns with more than 90% missing values
 mostly_data <- apply(!is.na(data_train), 2, sum) > (0.90 * nrow(data_train))
-
-data_train <- data_train[, mostly_data]
-data_test  <- data_test[, mostly_data]
-
-# Removing temporary objects
-rm(mostly_data)
+data_train  <- data_train[, mostly_data]
+data_test   <- data_test[, mostly_data]
 
 dim(data_train)
 ```
@@ -153,10 +146,11 @@ model_rf <- train(
 ## trainInfo, : There were missing values in resampled performance measures.
 ```
 
-As you can see on the code above, we did a 5-fold repeated cross validation 
-with 3 runs to evaluate our model. The chart below shows that we achieved 
-over than 99.4% of accuracy with 27 random predictors select at each 
-split (mtry = 27).
+As you can see on the code above, we tried 10 different values for the mtry
+parameter (number of random selected predictors at each split) and evaluated 
+each of them with a 5-fold repeated cross validation with 3 runs. 
+
+The chart below shows that the accuracy of 99.4% was achieved when mtry = 27.
 
 ![plot of chunk acc1](figure/acc1-1.png)
 
