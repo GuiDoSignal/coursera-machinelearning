@@ -14,11 +14,11 @@ specification (Class A), throwing the elbows to the front (Class B),
 lifting the dumbbell only halfway (Class C), lowering the dumbbell only halfway 
 (Class D) and throwing the hips to the front (Class E).
 
-We trained a random forest model and achieved the accuracy of 99.41% with a 
-5-fold repeated cross validation with 3 runs in the training data.
+To achieve this goal, we trained a random forest model and evaluated it through 
+a 5-fold repeated cross validation with 3 runs.
 
-Finally, we used this model to evaluate 20 entries in the test set and we were
-able to properly identify XX of the cases.
+We show how different values of randow predictors influence the and achieved 
+the accuracy of 99.41% with in the training data.
 
 # Pre processing
 
@@ -161,6 +161,8 @@ with 3 runs to evaluate our model. The chart below shows that we achieved
 
 plot(model_rf) 
 
+print(model_rf$finalModel)
+
 ```
 
 It is important to note that this accuracy is optmistic, so we expected to 
@@ -186,3 +188,5 @@ p
 ```
 
 [originalwork]: http://groupware.les.inf.puc-rio.br/public/papers/2013.Velloso.QAR-WLE.pdf "Qualitative Activity Recognition of Weight Lifting Exercises"
+
+

@@ -14,29 +14,21 @@ specification (Class A), throwing the elbows to the front (Class B),
 lifting the dumbbell only halfway (Class C), lowering the dumbbell only halfway 
 (Class D) and throwing the hips to the front (Class E).
 
-We estimate tour model 
+To achieve this goal, we trained a random forest model and evaluated it through 
+a 5-fold repeated cross validation with 3 runs.
+
+We show how different values of randow predictors influence the and achieved 
+the accuracy of 99.41% with in the training data.
+
+# Pre processing
 
 
-```r
-# First load needed libraries
-require(caret)
-require(ggplot2)
-require(doParallel)
-registerDoParallel()
 
-# https://bigcomputing.blogspot.com.br/2014/10/an-example-of-using-random-forest-in.html
-```
-
-# Model selection
-
-# Cross validation
-
-# Prediction
-
-Firstly, we get the file online. During the initial exploration of the data, it 
-was noted that some columns have the string '\#DIV/0!' which probably a division 
-by zero error. This leads to some numeric columns being mistakenly treated as 
-character columns, so we remove this string and the double quotes from the file.
+Firstly, we get the files online. During the initial exploration of the data, it 
+was noted that some columns have the string '\#DIV/0!' which probably indicates 
+a division by zero error. This leads to some numeric columns being mistakenly 
+treated as character columns, so we remove this string and the double quotes 
+from the file.
 
 
 ```r
@@ -116,10 +108,12 @@ dim(data_train)
 ## [1] 19622    53
 ```
 
+# Model selection
+
 Now that we have better data, we will train and evaluate our model. In the same 
 fashion of the [original work][originalwork], we chose a random forest predictor 
 because of the inherent noise present in the data and the likely feature 
-selection provided by it. 
+selection provided by the algorithm.
 
 
 ```r
@@ -151,46 +145,34 @@ model_rf <- train(
     method = "parRF",
     trControl = train_ctrl
 )
-
-print(model_rf)
 ```
 
 ```
-## Parallel Random Forest 
-## 
-## 19622 samples
-##    52 predictors
-##     5 classes: 'A', 'B', 'C', 'D', 'E' 
-## 
-## No pre-processing
-## Resampling: Cross-Validated (5 fold, repeated 3 times) 
-## Summary of sample sizes: 15697, 15699, 15696, 15697, 15699, 15698, ... 
-## Resampling results across tuning parameters:
-## 
-##   mtry  Accuracy   Kappa    
-##    2    0.9937995  0.9921565
-##   27    0.9940882  0.9925218
-##   52    0.9886690  0.9856660
-## 
-## Accuracy was used to select the optimal model using  the largest value.
-## The final value used for the model was mtry = 27.
+## Warning in nominalTrainWorkflow(x = x, y = y, wts = weights, info =
+## trainInfo, : There were missing values in resampled performance measures.
 ```
 
-To evaluate our model, we used a 
+As you can see on the code above, we did a 5-fold repeated cross validation 
+with 3 runs to evaluate our model. The chart below shows that we achieved 
+99.41% of accuracy with 27 random predictors select at each split (mtry = 27).
 
+![plot of chunk acc1](figure/acc1-1.png)
 
-```r
-conf_matrix     <- confusionMatrix(model_rf, norm="overall")
-data_confMatrix <- data.frame(conf_matrix$table) 
-p               <- ggplot(data_confMatrix)
-p               <- p + geom_tile(aes(x=Reference, y=Prediction, fill=Freq))
-p               <- p + scale_x_discrete(name = "Actual Class")
-p               <- p + scale_y_discrete(name = "Predicted Class")
-p               <- p + scale_fill_gradient(breaks = seq(from=0, to=100, by=10))
-p               <- p + labs(fill="Normalized\nFrequency")
-p
+```
+## 
+## Call:
+##  randomForest(x = "x", y = "y", ntree = 125, mtry = 27) 
+##                Type of random forest: classification
+##                      Number of trees: 250
+## No. of variables tried at each split: 27
 ```
 
-![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-1.png)
+It is important to note that this accuracy is optmistic, so we expected to 
+achieve lower values when applying this model to the test data.  
+
+The chart below shows the confusion matrix obtained from the training data as a 
+heat map.
+
+![plot of chunk conf-mat1](figure/conf-mat1-1.png)
 
 [originalwork]: http://groupware.les.inf.puc-rio.br/public/papers/2013.Velloso.QAR-WLE.pdf "Qualitative Activity Recognition of Weight Lifting Exercises"
