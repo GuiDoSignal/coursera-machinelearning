@@ -1,12 +1,11 @@
+# Human Activity Recognition Predictor
+
+Guilherme Junqueira
+September 18, 2016
 
 ---
-title: "Human Activity Recognition Predictor"
-author: "Guilherme Junqueira"
-date: "September 17, 2016"
-output: html_document
----
 
-# Summary
+## Summary
 
 The aim of this project is to build a model that try to classify the exercises 
 performed by six young adults in five different ways: exactly according to the 
@@ -20,7 +19,7 @@ a 5-fold repeated cross validation with 3 runs.
 We show how different values of randow predictors influence the and achieved 
 the accuracy of 99.41% with in the training data.
 
-# Pre processing
+## Pre processing
 
 ```{r libraries,message=FALSE,echo=FALSE}
 
@@ -113,7 +112,7 @@ dim(data_train)
 
 ```
 
-# Model selection
+## Model selection
 
 Now that we have better data, we will train and evaluate our model. In the same 
 fashion of the [original work][originalwork], we chose a random forest predictor 
@@ -148,6 +147,7 @@ model_rf <- train(
     classe ~ .,
     data_train,
     method = "parRF",
+    tuneLength = 10,
     trControl = train_ctrl
 )
 
@@ -155,13 +155,12 @@ model_rf <- train(
 
 As you can see on the code above, we did a 5-fold repeated cross validation 
 with 3 runs to evaluate our model. The chart below shows that we achieved 
-99.41% of accuracy with 27 random predictors select at each split (mtry = 27).
+over than 99.4% of accuracy with 27 random predictors select at each 
+split (mtry = 27).
 
 ```{r acc1,echo=FALSE,cache=TRUE}
 
 plot(model_rf) 
-
-print(model_rf$finalModel)
 
 ```
 

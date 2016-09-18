@@ -1,12 +1,11 @@
+# Human Activity Recognition Predictor
+
+Guilherme Junqueira
+September 18, 2016
 
 ---
-title: "Human Activity Recognition Predictor"
-author: "Guilherme Junqueira"
-date: "September 17, 2016"
-output: html_document
----
 
-# Summary
+## Summary
 
 The aim of this project is to build a model that try to classify the exercises 
 performed by six young adults in five different ways: exactly according to the 
@@ -20,7 +19,7 @@ a 5-fold repeated cross validation with 3 runs.
 We show how different values of randow predictors influence the and achieved 
 the accuracy of 99.41% with in the training data.
 
-# Pre processing
+## Pre processing
 
 
 
@@ -108,7 +107,7 @@ dim(data_train)
 ## [1] 19622    53
 ```
 
-# Model selection
+## Model selection
 
 Now that we have better data, we will train and evaluate our model. In the same 
 fashion of the [original work][originalwork], we chose a random forest predictor 
@@ -143,29 +142,21 @@ model_rf <- train(
     classe ~ .,
     data_train,
     method = "parRF",
+    tuneLength = 10,
     trControl = train_ctrl
 )
 ```
 
 ```
-## Warning in nominalTrainWorkflow(x = x, y = y, wts = weights, info =
-## trainInfo, : There were missing values in resampled performance measures.
+## Error in train.default(x, y, weights = w, ...): Bad seeds: the seed object should be a list of length 16 with 15 integer vectors of size 10 and the last list element having at least a single integer
 ```
 
 As you can see on the code above, we did a 5-fold repeated cross validation 
 with 3 runs to evaluate our model. The chart below shows that we achieved 
-99.41% of accuracy with 27 random predictors select at each split (mtry = 27).
+over than 99.4% of accuracy with 27 random predictors select at each 
+split (mtry = 27).
 
 ![plot of chunk acc1](figure/acc1-1.png)
-
-```
-## 
-## Call:
-##  randomForest(x = "x", y = "y", ntree = 125, mtry = 27) 
-##                Type of random forest: classification
-##                      Number of trees: 250
-## No. of variables tried at each split: 27
-```
 
 It is important to note that this accuracy is optmistic, so we expected to 
 achieve lower values when applying this model to the test data.  
@@ -176,3 +167,5 @@ heat map.
 ![plot of chunk conf-mat1](figure/conf-mat1-1.png)
 
 [originalwork]: http://groupware.les.inf.puc-rio.br/public/papers/2013.Velloso.QAR-WLE.pdf "Qualitative Activity Recognition of Weight Lifting Exercises"
+
+
